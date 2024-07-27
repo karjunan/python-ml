@@ -3,7 +3,9 @@
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import OllamaEmbeddings
+
 
 loader = TextLoader("data/test.txt")
 document = loader.load()
@@ -22,7 +24,8 @@ chunks = text_splitter.split_documents(document)
 #     print("   -----------  ")
 
 # embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-embedding_function = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+#embedding_function = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+embedding_function = OllamaEmbeddings(model="nomic-embed-text")
 # print(embedding_function)
 
 # db = Chroma.from_documents(docs, embedding_function)
