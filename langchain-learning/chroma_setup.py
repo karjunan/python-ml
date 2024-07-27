@@ -9,7 +9,7 @@ loader = TextLoader("data/test.txt")
 document = loader.load()
 # print(document)
 
-text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=50)
+text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 chunks = text_splitter.split_documents(document)
 # print(chunks[:2])
 # chunks_with_ids = [{"id": f"chunk_{i}", "text": chunk} for i, chunk in enumerate(chunks)]
