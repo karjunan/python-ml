@@ -1,5 +1,5 @@
 # from langchain.vectorstores import Chroma
-# import chromadb
+import chromadb
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
@@ -25,7 +25,8 @@ chunks = text_splitter.split_documents(document)
 
 # embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 #embedding_function = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
-embedding_function = OllamaEmbeddings(model="nomic-embed-text")
+# embedding_function = OllamaEmbeddings(model="nomic-embed-text")
+embedding_function = OllamaEmbeddings(model="llama3")
 # print(embedding_function)
 
 # db = Chroma.from_documents(docs, embedding_function)
@@ -45,7 +46,7 @@ embedding_function = OllamaEmbeddings(model="nomic-embed-text")
 
 
 # Initialize the Chroma client
-# client = chromadb.Client()
+client = chromadb.Client()
 
 # Create or load a collection
 # This code snippet is creating a collection in a Chroma database using the `chromadb` library. Here's
@@ -63,9 +64,31 @@ embedding_function = OllamaEmbeddings(model="nomic-embed-text")
 #     # metadata=metadata
 # )
 
-db = Chroma.from_documents(chunks, embedding_function)
-query = "what did Alice say"
-docs = db.similarity_search(query)
+# db = Chroma.from_documents(chunks, embedding_function)
+# collection_name = "my_collection"
+# collection = Chroma.from_documents(
+#     client=client,
+#     collection_name=collection_name,
+#     documents=chunks,
+#     embedding_model=embedding_function
+# )
+
+# db2 = Chroma.from_documents(chunks, embedding_function, persist_directory="./chroma_db")
+# docs = db2.similarity_search(query)
+
+query = "why did alice wait near the door"
+
+db3 = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
+result = db3.similarity_search(query)
+print(result[0].page_content)
+
+# results = collection.query(
+#     query_embedding,
+#     top_k=5  # Number of top results to retrieve
+# )
+# db = Chroma.from_documents(query, embedding_function)
+# docs = db.similarity_search(query)
+# docs = Chroma.retrieve(query, embedding_function)
 
 
-print(docs[0].page_content)
+# print(results)
