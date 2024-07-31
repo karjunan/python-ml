@@ -5,14 +5,32 @@ from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
 # from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.embeddings import OllamaEmbeddings
+from flask import jsonify
 
+embedding_function = OllamaEmbeddings(model="llama3")
 
-loader = TextLoader("data/test.txt")
-document = loader.load()
+def setEmbeddings():
+    loader = TextLoader("data/test.txt")
+    document = loader.load()
+    text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    chunks = text_splitter.split_documents(document)
+    client = chromadb.Client()
+    print("All embeddings saved")
+
+def getResult(query: str):
+    # query = "why did alice wait near the door"
+    print(query)
+    db3 = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
+    result = db3.similarity_search(query)
+    print(result[0].page_content)
+    return result[0].page_content
+
+# loader = TextLoader("data/test.txt")
+# document = loader.load()
 # print(document)
 
-text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-chunks = text_splitter.split_documents(document)
+# text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+# chunks = text_splitter.split_documents(document)
 # print(chunks[:2])
 # chunks_with_ids = [{"id": f"chunk_{i}", "text": chunk} for i, chunk in enumerate(chunks)]
 # print("-----")
@@ -26,7 +44,7 @@ chunks = text_splitter.split_documents(document)
 # embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 #embedding_function = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 # embedding_function = OllamaEmbeddings(model="nomic-embed-text")
-embedding_function = OllamaEmbeddings(model="llama3")
+# embedding_function = OllamaEmbeddings(model="llama3")
 # print(embedding_function)
 
 # db = Chroma.from_documents(docs, embedding_function)
@@ -46,7 +64,7 @@ embedding_function = OllamaEmbeddings(model="llama3")
 
 
 # Initialize the Chroma client
-client = chromadb.Client()
+# client = chromadb.Client()
 
 # Create or load a collection
 # This code snippet is creating a collection in a Chroma database using the `chromadb` library. Here's
@@ -76,11 +94,11 @@ client = chromadb.Client()
 # db2 = Chroma.from_documents(chunks, embedding_function, persist_directory="./chroma_db")
 # docs = db2.similarity_search(query)
 
-query = "why did alice wait near the door"
+# query = "why did alice wait near the door"
 
-db3 = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
-result = db3.similarity_search(query)
-print(result[0].page_content)
+# db3 = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
+# result = db3.similarity_search(query)
+# print(result[0].page_content)
 
 # results = collection.query(
 #     query_embedding,

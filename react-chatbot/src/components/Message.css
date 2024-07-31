@@ -1,0 +1,36 @@
+/* src/components/Message.css */
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+    font-size: 15px;
+    display: inline-block;
+    align-self: flex-start;
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  .message.user {
+    background-color: #d1f3d1;
+    align-self: flex-end;
+  }
+  
+  .message.bot {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
