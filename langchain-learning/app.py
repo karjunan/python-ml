@@ -5,11 +5,11 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# Sample data
-messages = [
-    {"id": 1, "text": "Hello, world!"},
-    {"id": 2, "text": "Welcome to Flask!"}
-]
+# # Sample data
+# messages = [
+#     {"id": 1, "text": "Hello, world!"},
+#     {"id": 2, "text": "Welcome to Flask!"}
+# ]
 
 @app.route('/messages', methods=['GET'])
 def get_messages():

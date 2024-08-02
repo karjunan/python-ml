@@ -12,7 +12,6 @@ const Input = ({ onSendMessage }) => {
 
   const handleSendClick = () => {
     onSendMessage(text);
-    
     setText('');
   };
 
